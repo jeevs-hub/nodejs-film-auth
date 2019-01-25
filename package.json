@@ -4,6 +4,7 @@
   "description": "Node-JS function to authenticate users for film tracker",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines":{
