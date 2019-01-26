@@ -7,8 +7,8 @@ const db = require("../utils/db.js");
 
 module.exports.login = async (body) => {
     console.log("the login method")
-    const { email, password } = body;
-    return getUser(email).then(async (user) => {
+    const { username, password } = body;
+    return getUser(username).then(async (user) => {
         console.log("got user ", user)
         if (!user) throw { status: 400, message: "Invalid Username or Password" };
         const validPassword = await bcrypt.compare(password, user.password);
