@@ -2,18 +2,29 @@
   "name": "nodejs-film-auth",
   "version": "1.0.0",
   "description": "Node-JS function to authenticate users for film tracker",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines":{
+  "engines": {
     "node": "10.13.0",
-    "npm": "6.4.1"    
+    "npm": "6.4.1"
   },
   "author": "Jeevan Gill",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "bcrypt": "^3.0.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-promise-router": "^3.0.3",
+    "jsonwebtoken": "^8.4.0",
+    "nan": "^2.12.1",
+    "node-pre-gyp": "^0.12.0",
+    "pg": "^7.8.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.11.3"
   }
 }
