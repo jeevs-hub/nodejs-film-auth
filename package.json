@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node": "10.13.0",
-    "npm": "6.4.1"
+    "node": "8.11.0",
+    "npm": "5.6.0"
   },
   "author": "Jeevan Gill",
   "license": "ISC",
