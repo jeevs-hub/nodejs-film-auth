@@ -1,57 +1,25 @@
 const Router = require('express-promise-router');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
-const uuidv4 = require('uuid/v4');
 const router = new Router();
 const db = require("../utils/db.js");
-var VerifyToken = require('./VerifyToken');
+const VerifyToken = require('./VerifyToken');
+const userController = require('./userController');
 
 module.exports = router;
 
 router.post("/login", async (req, res) => {
-    console.log("the req body ", JSON.stringify(req.body));
-    const client = await db.client();
-
-    try {
-        const { email, password } = req.body;
-        const { rows } = await db.query("select id, password from users where email = $1", [email]);
-
-        if (!rows || rows.length === 0) res.status(400).send("Invalid Username or Password");
-        const validPassword = await bcrypt.compare(password, rows[0].password);
-        if (!validPassword) res.status(400).send("Invalid Username or Password");
-
-        var token = jwt.sign({ id: rows[0].id }, "secret", { expiresIn: 86400 });
-
-        res.send(token);
-    } catch (e) {
-        console.log("error logging in ", (e))
-        res.status(500).send("Internal Server Error");
-    } finally {
-        client.release();
-    }
+    const { body } = req;
+    console.log("the req body for login ", JSON.stringify(body));
+    userController.login(body)
+        .then((token) => res.send({ token }))
+        .catch((err) => res.status(err.status).send({ error: err.message }))
 });
 
 router.post("/register", async (req, res) => {
-    console.log("the req body ", JSON.stringify(req.body));
-    const client = await db.client();
-
-    try {
-        const { email, password, passwordConfirmation, dateOfBirth, firstName, lastName } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const { rows } = await db.query(`insert into users(id, first_name, last_name, date_of_birth, password, email)
-                                        values ($1, $2, $3, $4, $5, $6)` ,
-            [uuidv4(), firstName, lastName, dateOfBirth, hashedPassword, email]);
-
-        var token = jwt.sign({ id: rows[0].id }, "secret", { expiresIn: 86400 });
-
-        res.send(token);
-    } catch (e) {
-        console.log("error logging in ", (e))
-        res.status(500).send("Internal Server Error");
-    } finally {
-        client.release();
-    }
+    const { body } = req;
+    console.log("the req body for register ", JSON.stringify(body));
+    userController.register(body)
+        .then((token) => res.send({ token }))
+        .catch((err) => res.status(err.status).send({ error: err.message }))
 });
 
 router.get("/all", async (req, res) => {
