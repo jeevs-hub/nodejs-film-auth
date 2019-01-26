@@ -1,8 +1,12 @@
-var express = require("express");
+const express = require("express");
 const bodyParser = require("body-parser");
-var port = process.env.PORT || 3000;
-var app = express();
+const app = express();
+const cors = require('cors');
+
+const port = process.env.PORT || 3000;
 const mountRoutes = require("./routes/index");
+
+app.use(cors()) 
 
 app.use(bodyParser.json({ limit: "10mb" }));
 
