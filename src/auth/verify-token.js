@@ -1,5 +1,6 @@
+const userController = require('./user-controller');
+
 verifyToken = (req, res, next) => {
-    console.log("the headers", req.headers);
   var token = req.headers['authorization'];
   if (!token)
     return res.status(403).send({ message: 'Authorisation not provided.' });
