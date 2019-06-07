@@ -27,7 +27,7 @@ module.exports.register = async (body) => {
         if(existingUser) throw { status: 400, message: "User is already registered" };
         if(password !== passwordConfirmation) throw { status: 400, message: "Passwords do not match" };
         if(!PASSWORD_VALIDATION.test(password)) throw { status: 400, message: "Password does not meet validation" };
-        if(!EMAIL_VALIDATION.test(email))  throw { status: 400, message: "Email is not valid" };
+        if(!EMAIL_VALIDATION.test(email)) throw { status: 400, message: "Email is not valid" };
         const id = uuidv4();
         const hashedPassword = await bcrypt.hash(password, parseInt(process.env.HASH_SALT));
         await db.query(`insert into users(id, first_name, last_name, date_of_birth, password, email) values ($1, $2, $3, $4, $5, $6)` ,
