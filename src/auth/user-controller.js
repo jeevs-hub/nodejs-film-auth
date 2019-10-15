@@ -12,8 +12,7 @@ module.exports.login = async (body) => {
         if (!user) throw { status: 400, message: "Invalid Username or Password" };
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) throw { status: 400, message: "Invalid Username or Password" };
-        // return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 86400 });
-        return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 60 });
+        return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 86400 });
     });
 }
 
