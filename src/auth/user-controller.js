@@ -34,7 +34,7 @@ module.exports.register = async (body) => {
             [id, firstName, lastName, new Date(dateOfBirth), hashedPassword, email]);
 
         // return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
-        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 60*5 });
+        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 30 });
     } catch (e) {
         console.log("error registering in ", (e))
         throw { status: e.status ? e.status : 500, message: e.message ? e.message : `Something went wrong at our end.` }
