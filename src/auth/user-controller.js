@@ -33,7 +33,8 @@ module.exports.register = async (body) => {
         await db.query(`insert into users(id, first_name, last_name, date_of_birth, password, email) values ($1, $2, $3, $4, $5, $6)` ,
             [id, firstName, lastName, new Date(dateOfBirth), hashedPassword, email]);
 
-        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
+        // return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
+        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 60*5 });
     } catch (e) {
         console.log("error registering in ", (e))
         throw { status: e.status ? e.status : 500, message: e.message ? e.message : `Something went wrong at our end.` }
