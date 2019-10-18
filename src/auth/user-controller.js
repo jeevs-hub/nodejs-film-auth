@@ -12,7 +12,8 @@ module.exports.login = async (body) => {
         if (!user) throw { status: 400, message: "Invalid Username or Password" };
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) throw { status: 400, message: "Invalid Username or Password" };
-        return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 86400 });
+        return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 300 });
+        // return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 86400 });
     });
 }
 
@@ -34,7 +35,7 @@ module.exports.register = async (body) => {
             [id, firstName, lastName, new Date(dateOfBirth), hashedPassword, email]);
 
         // return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
-        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 30 });
+        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 360 });
     } catch (e) {
         console.log("error registering in ", (e))
         throw { status: e.status ? e.status : 500, message: e.message ? e.message : `Something went wrong at our end.` }
