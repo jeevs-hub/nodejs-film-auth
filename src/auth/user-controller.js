@@ -12,8 +12,7 @@ module.exports.login = async (body) => {
         if (!user) throw { status: 400, message: "Invalid Username or Password" };
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) throw { status: 400, message: "Invalid Username or Password" };
-        return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 300 });
-        // return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 86400 });
+        return jwt.sign({ id: user.id, firstName: user.first_name }, process.env.JWT_SECRET, { expiresIn: 86400 });
     });
 }
 
@@ -64,7 +63,6 @@ module.exports.validateToken = (token, callback) => {
 
 async function getUser(email) {
     const client = await db.client();
-    console.log(`getting user ${email}`)
     try {
         const { rows } = await db.query("select id, password, first_name from users where email = $1", [email]);
         return rows[0];
