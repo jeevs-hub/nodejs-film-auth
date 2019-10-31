@@ -27,7 +27,6 @@ router.post("/register", async (req, res) => {
 router.post("/validateAuth", verifyApiKey, async (req, res) => {
     const { token } = req.body;
     console.log("the req body validate auth ", token);
-    //used a callback as jwt.decode uses callback so follow that pattern
     userController.validateToken(token, (err, id) => {
         if (err) {
             return res.status(err.status).send({ error: { status: err.status, message: err.message } });
