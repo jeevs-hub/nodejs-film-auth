@@ -33,8 +33,7 @@ module.exports.register = async (body) => {
         await db.query(`insert into users(id, first_name, last_name, date_of_birth, password, email) values ($1, $2, $3, $4, $5, $6)` ,
             [id, firstName, lastName, new Date(dateOfBirth), hashedPassword, email]);
 
-        // return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
-        return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 360 });
+         return jwt.sign({ id, firstName: firstName }, process.env.JWT_SECRET, { expiresIn: 86400 });
     } catch (e) {
         console.log("error registering in ", (e))
         throw { status: e.status ? e.status : 500, message: e.message ? e.message : `Something went wrong at our end.` }
@@ -42,16 +41,6 @@ module.exports.register = async (body) => {
         client.release();
     }
 }
-
-//Incase we want to swtich back to promise
-// module.exports.validateToken = (token, res) => {
-//     return new Promise((resolve, reject) => {
-//         jwt.verify(token, "secret", function(err, decoded) {
-//             if (err) return reject({ message: 'Failed to authenticate token.' });
-//             resolve(decoded.id);
-//         });
-//     });       
-// }
 
 //used a callback as jwt.decode uses callback so follow that pattern
 module.exports.validateToken = (token, callback) => {

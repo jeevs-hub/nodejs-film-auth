@@ -1,7 +1,5 @@
 const Router = require('express-promise-router');
 const router = new Router();
-const db = require("../utils/db.js");
-const VerifyToken = require('./verify-token');
 const verifyApiKey = require('./very-api-key');
 const userController = require('./user-controller');
 
@@ -23,6 +21,9 @@ router.post("/register", async (req, res) => {
         .catch((err) => res.status(err.status).send({ error: { status: err.status, message: err.message } }))
 });
 
+//used by external services such as film api
+//TODO move to seperate service along with logic for checking if the 
+//token is valid
 router.post("/validateAuth", verifyApiKey, async (req, res) => {
     const { token } = req.body;
     console.log("the req body validate auth ", token);
@@ -34,25 +35,9 @@ router.post("/validateAuth", verifyApiKey, async (req, res) => {
             return res.send({ id });
         }
     });
-    //left in case we want to switch back to promises
-    // userController.validateToken(token)
-    //     .then((id) => res.send({ id }))
-    //     .catch((err) => res.status(err.status).send({ error: { status: err.status, message: err.message } }))
 });
 
-router.get("/all", async (req, res) => {
-    const client = await db.client();
-    try {
-        const { rows } = await db.query(`select * from users`);
-        res.send(rows);
-    } catch (e) {
-        console.log("error logging in ", (e))
-        res.status(500).send("Internal Server Error");
-    } finally {
-        client.release();
-    }
-});
-
-router.get("/ping", VerifyToken, async (req, res) => {
+//test endpoint
+router.get("/ping", async (req, res) => {
     res.send("pong");
 });
